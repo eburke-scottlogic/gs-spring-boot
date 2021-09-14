@@ -8,6 +8,8 @@ public class Matcher {   //every Java program has a class name which must match 
     public static ArrayList<Order> sellList = new ArrayList<Order>();
     public static ArrayList<Trade> transHist = new ArrayList<Trade>();
 
+    public Matcher() {}  //constructor
+
     public static void createOrder(String account, float price, int quantity, String action) {
         Order newOrder=new Order(account, price, quantity, action);
         processOrder(newOrder);
@@ -15,11 +17,43 @@ public class Matcher {   //every Java program has a class name which must match 
 
     public static void addOrder(Order order) {
         if (order.getAction() == "buy") {
-            buyList.add(order);
-            //sort list in descending
-        } else {
-            sellList.add(order);
-            //sort list in ascending
+            //sort buy list in descending
+            for (int i=0; i<buyList.size();i++) {
+                if (buyList.get(i).getPrice() >= order.getPrice()) {
+                    int len = buyList.size() - 1;
+                    if (i == len) {
+                        buyList.add(order);
+                        break;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    buyList.add(i, order);
+                    break;
+                }
+            }
+                if (buyList.size() == 0) {
+                    buyList.add(order);
+                }
+            } else {
+            //sort sell list in ascending
+            for (int i=0; i<sellList.size();i++) {
+                if (sellList.get(i).getPrice() <= order.getPrice()) {
+                    int len = sellList.size() - 1;
+                    if (i == len) {
+                        sellList.add(order);
+                        break;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    sellList.add(i, order);
+                    break;
+                }
+            }
+            if (sellList.size() == 0) {
+                sellList.add(order);
+            }
         }
     }
 
@@ -29,7 +63,7 @@ public class Matcher {   //every Java program has a class name which must match 
             //pair off - transaction history
             newTrade(order.getAccount(), matchedOrder.getAccount(), matchedOrder.getPrice(), order.getQuantity(), order.getAction());
             order.setQuantity(0);
-            matchedOrder.setQuantity(0);; //make order in sell list null value
+            matchedOrder.setQuantity(0);  //make order in sell list null value
         }
         else if (order.getQuantity() <= matchedOrder.getQuantity()) {
             newTrade(order.getAccount(), matchedOrder.getAccount(), matchedOrder.getPrice(), order.getQuantity(), order.getAction());
@@ -45,14 +79,17 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     public static void newTrade(String account1, String account2, float price, int quantity, String action) {
-        Trade newTrade=new Trade(account1, account2, price, quantity, action);
-        transHist.add(newTrade);
+        Trade trade=new Trade(account1, account2, price, quantity, action);
+        transHist.add(trade);
     }
 
     public static void removeNullOrders(ArrayList<Order> list) {
-        for (Order order:list) {
-            if(order.getQuantity()==0){
-                list.remove(order);
+        for (Order nullOrder:list) {
+            if(nullOrder.getQuantity()==0){
+                list.remove(nullOrder);
+                if (list.size()==0) {
+                    break;
+                }
             }
         }
     }
@@ -60,7 +97,7 @@ public class Matcher {   //every Java program has a class name which must match 
     public static void processOrder(Order order) {
         if (order.getAction() == "buy") {
             for (Order sellOrder:sellList) {
-                if (order.getPrice() == sellOrder.getPrice()) {
+                if (order.getAccount() == sellOrder.getAccount()) {
                     continue;
                 } else {
                     if (order.getPrice() >= sellOrder.getPrice()) {
@@ -79,7 +116,7 @@ public class Matcher {   //every Java program has a class name which must match 
             }
         } else {  //if action is sell
             for (Order buyOrder:buyList) {
-                if (order.getPrice() == buyOrder.getPrice()) {
+                if (order.getAccount() == buyOrder.getAccount()) {
                     continue;
                 } else {
                     if (order.getPrice() <= buyOrder.getPrice()) {
@@ -100,8 +137,12 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     //private order book
+    public static ArrayList<Order> privBuy = new ArrayList<Order>();
+    public static ArrayList<Order> privSell = new ArrayList<Order>();
+    public static ArrayList<Trade> privTransHist = new ArrayList<Trade>();
+
+
     public static void privateOrderBuy(String currentAccount) {
-        ArrayList<Order> privBuy = new ArrayList<Order>();
         for (Order buyOrder:buyList) {
             if(buyOrder.getAccount()==currentAccount) {
                 privBuy.add(buyOrder);
@@ -110,7 +151,6 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     public static void privateOrderSell(String currentAccount) {
-        ArrayList<Order> privSell = new ArrayList<Order>();
         for (Order sellOrder:sellList) {
             if(sellOrder.getAccount()==currentAccount) {
                 privSell.add(sellOrder);
@@ -119,7 +159,6 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     public static void privateOrderTrans(String currentAccount) {
-        ArrayList<Trade> privTransHist = new ArrayList<Trade>();
         for (Trade trans:transHist) {
             if(trans.getAccount1()==currentAccount || trans.getAccount2()==currentAccount) {
                 privTransHist.add(trans);
@@ -128,8 +167,10 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     //aggregated order book
+    public static HashMap<Float, Integer> aggSell = new HashMap<Float, Integer>();
+    public static HashMap<Float, Integer> aggBuy = new HashMap<Float, Integer>();
+
     public static void aggregatedSell() {
-        HashMap<Float, Integer> aggSell = new HashMap<Float, Integer>();
         for (Order sellOrder:sellList) {
             float price = sellOrder.getPrice();
             if (aggSell.containsKey(price)) {
@@ -142,7 +183,6 @@ public class Matcher {   //every Java program has a class name which must match 
     }
 
     public static void aggregatedBuy() {
-        HashMap<Float, Integer> aggBuy = new HashMap<Float, Integer>();
         for (Order buyOrder:buyList) {
             float price = buyOrder.getPrice();
             if (aggBuy.containsKey(price)) {
@@ -156,7 +196,10 @@ public class Matcher {   //every Java program has a class name which must match 
 
 
     public static void main(String[] args) {  //every program must contain the main() method
-        createOrder("user1", 10, 12, "buy");
+        createOrder("user1", 16, 4, "buy");
+        createOrder("user2", 16, 6, "buy");
+        aggregatedBuy();
+        System.out.println(aggBuy);
     }
 
 }
