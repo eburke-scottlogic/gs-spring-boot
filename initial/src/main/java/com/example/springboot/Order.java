@@ -1,9 +1,26 @@
 package com.example.springboot;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Order {
+
+    @NotNull
+    @Size(min=1)
     private String account;
+
+    @NotNull
+    @DecimalMin("0.01")
     private float price;
+
+    @NotNull
+    @Min(1)
     private int quantity;
+
+    @NotNull
+    @Size(min=1)
     private String action;
 
     public Order(String account, float price, int quantity, String action){

@@ -1,9 +1,12 @@
 package com.example.springboot;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 import java.util.*;
 
 // http://localhost:8080
@@ -13,7 +16,8 @@ import java.util.*;
 @RestController
 public class HelloController {
 
-	Matcher matcher = new Matcher();
+	@Autowired
+	Matcher matcher;
 
 	@GetMapping("/")
 	public String index() {
@@ -32,14 +36,19 @@ public class HelloController {
 	}
 
 	@PostMapping("/createOrder")
-	public ArrayList<ArrayList<Order>> placeOrder(@RequestBody Order order) {
+	public ArrayList[] placeOrder(@Valid @RequestBody Order order) {
 		matcher.processOrder(order);
-		ArrayList<ArrayList<Order>> lists = new ArrayList<ArrayList<Order>>();
+		ArrayList[] lists = new ArrayList[2];
 		ArrayList<Order> buyList = matcher.buyList;
 		ArrayList<Order> sellList = matcher.sellList;
-		lists.add(buyList);
-		lists.add(sellList);
+		lists[0]=buyList;
+		lists[1]=sellList;
 		return lists;
+	}
+
+	@PostMapping("/login")
+	public String newLogin(@Valid @RequestBody Login login) {
+		return login.getUsername();
 	}
 
 }

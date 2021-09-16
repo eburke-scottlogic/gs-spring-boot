@@ -1,7 +1,10 @@
 package com.example.springboot;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class Matcher {   //every Java program has a class name which must match the filename
 
     public ArrayList<Order> buyList;
