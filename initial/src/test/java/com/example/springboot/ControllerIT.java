@@ -2,6 +2,7 @@ package com.example.springboot;
 
 //HelloController integration tests
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 
 @SpringBootTest
@@ -105,5 +107,10 @@ public class ControllerIT {
                 "    \"action\": \"\"\n" +
                 "}").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
+
+    //test login api
+
+    //test database api
+
 
 }
