@@ -3,17 +3,12 @@ package com.example.springboot;
 
 import com.example.springboot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
 
 // http://localhost:8080
-//place a buy order
-//place a sell order
 
 @RestController
 public class HelloController {
@@ -33,16 +28,19 @@ public class HelloController {
 		return sentence;
 	}
 
+	//buy list
 	@GetMapping("/allBuys")
 	public ArrayList<Order> callBuyList() {
 		return matcher.buyList;
 	}
 
+	//sell list
 	@GetMapping("/allSells")
 	public ArrayList<Order> callSellList() {
 		return matcher.sellList;
 	}
 
+	//new order
 	@PostMapping("/createOrder")
 	public ArrayList[] placeOrder(@Valid @RequestBody Order order) {
 		matcher.processOrder(order);
@@ -54,23 +52,50 @@ public class HelloController {
 		return lists;
 	}
 
+	//login token, validates against database
 	@PostMapping("/login")
 	public String newLogin(@Valid @RequestBody Login login) {
-		String username = login.getUsername();
-		String password = login.getPassword();
-		boolean auth = authlogin.authenticate(username, password);
-		int token = (username+password).hashCode();
-		if (auth == true) {
+		List<Integer> ids = accountService.getAllIds();
+		List<String> usernames = accountService.getAllAccounts();
+		List<String> passwords = accountService.getAllPasswords();
+		boolean auth = authlogin.authenticate(ids, usernames, passwords, login);
+		int token = (login.getUsername()+login.getPassword()).hashCode();
+		if (auth) {
 			return "Success! Token: " + token;
 		} else {
 			return "Incorrect details, please try again.";
 		}
 	}
 
-	@PostMapping("/account")
-	public int saveAccount(@Valid @RequestBody Login login) {
-		accountService.saveOrUpdate(login);
-		return login.getId();
+
+	//retrieves all the usernames from the database
+	@GetMapping("/allAccounts")
+	private List<String> getAllLogins()
+	{
+		return accountService.getAllAccounts();
 	}
+
+	//retrieves the detail of a specific account
+	@GetMapping("/account/{id}")
+	private Login getStudent(@PathVariable("id") int id)
+	{
+		return accountService.getAccountById(id);
+	}
+
+	//deletes a specific account
+	@DeleteMapping("/account/{id}")
+	private void deleteAccount(@PathVariable("id") int id)
+	{
+		accountService.delete(id);
+	}
+
+	//post account to the database
+	@PostMapping("/account")
+	public String saveAccount(@Valid @RequestBody Login login) {
+		accountService.saveOrUpdate(login);
+		String user = login.getUsername();
+		return "New account created, username: " + user;
+	}
+
 
 }
