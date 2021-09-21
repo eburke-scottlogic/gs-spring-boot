@@ -13,40 +13,22 @@ import javax.validation.constraints.Size;
 public class Login {
     @Id
     @Column
-    @NotNull
-    @Min(1)
-    private int id;
-
-    @Column
-    @NotNull
     @Size(min=1)
     private String username;
 
     @Column
-    @NotNull
     @Size(min=1)
     private String password;
 
     @Column
-    @NotNull
     @Size(min=1)
     private String token;
 
     public Login () {}
 
-    public Login(int id, String username, String password, String token){
-        this.id=id;
+    public Login(String username, String password){
         this.username=username;
         this.password=password;
-        this.token=token;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -76,8 +58,7 @@ public class Login {
     @Override
     public String toString() {
         return "Login{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                " username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

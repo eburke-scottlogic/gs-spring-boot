@@ -36,7 +36,12 @@ public class Application {
 	@Bean
 	CommandLineRunner run(AccountService accountService){
 		return args -> {
-			accountService.saveOrUpdate(new Login(2, "user2", "password2", "token2"));
+			//hardcoded data
+			accountService.saveOrUpdate(new Login("user1", "password1"));
+			accountService.saveOrUpdate(new Login("user2", "password2"));
+			accountService.saveOrUpdate(new Login("user3", "password3"));
+			accountService.saveOrUpdate(new Login("user4", "password4"));
+			accountService.saveOrUpdate(new Login("user5", "password5"));
 		};
 	}
 

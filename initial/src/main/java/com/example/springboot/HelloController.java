@@ -53,20 +53,19 @@ public class HelloController {
 		return lists;
 	}
 
-	//login token, validates against database
-	@PostMapping("/login")
-	public String newLogin(@Valid @RequestBody Login login) {
-		List<Integer> ids = accountService.getAllIds();
-		List<String> usernames = accountService.getAllAccounts();
-		List<String> passwords = accountService.getAllPasswords();
-		boolean auth = authlogin.authenticate(ids, usernames, passwords, login);
-		int token = (login.getUsername()+login.getPassword()).hashCode();
-		if (auth) {
-			return "Success! Token: " + token;
-		} else {
-			return "Incorrect details, please try again.";
-		}
-	}
+//	//login, authenticates against database
+//	@PostMapping("/login")
+//	public String newLogin(@Valid @RequestBody Login login) {
+//		List<String> usernames = accountService.getAllAccounts();
+//		List<String> passwords = accountService.getAllPasswords();
+//		boolean auth = authlogin.authenticate(usernames, passwords, login);
+//		int token = (login.getUsername()+login.getPassword()).hashCode();
+//		if (auth) {
+//			return "Success! Token: " + token;
+//		} else {
+//			return "Incorrect details, please try again.";
+//		}
+//	}
 
 
 	//retrieves all the usernames from the database

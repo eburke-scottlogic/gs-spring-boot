@@ -15,16 +15,14 @@ public class AuthLogin {
 
     //hardcode data
 
-    public boolean authenticate(List<Integer> ids, List<String> usernames, List<String> passwords, Login login) {
+    public boolean authenticate(List<String> usernames, List<String> passwords, Login login) {
         for(int i = 0; i < usernames.size(); i++) {
-            if (ids.get(i) == login.getId()) {
                 if (usernames.get(i).equals(login.getUsername())) {
                     if (passwords.get(i).equals(login.getPassword())) {
                         return true;
                     }
                 }
             }
-        }
         return false;
     }
 }

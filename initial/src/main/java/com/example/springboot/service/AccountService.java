@@ -14,13 +14,6 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    public List<Integer> getAllIds()
-    {
-        List<Integer> ids = new ArrayList<>();
-        accountRepository.findAll().forEach(login -> ids.add(login.getId()));
-        return ids;
-    }
-
     public List<String> getAllAccounts()
     {
         List<String> accounts = new ArrayList<>();

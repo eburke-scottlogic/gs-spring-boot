@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.springboot.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,17 +17,29 @@ import com.example.springboot.Login;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import javax.validation.Valid;
+
 @RestController
 public class UserController {
 
-    @PostMapping("user")
-    public Login login(@RequestParam("user") String username, @RequestParam("password") String password) {
+    @Autowired
+    AuthLogin authlogin;
 
-        String token = getJWTToken(username);
-        Login login = new Login();
-        login.setUsername(username);
-        login.setToken(token);
-        return login;
+    @Autowired
+    AccountService accountService;
+
+    @PostMapping("user")
+    public String login(@Valid @RequestBody Login login) {
+        List<String> usernames = accountService.getAllAccounts();
+        List<String> passwords = accountService.getAllPasswords();
+        boolean auth = authlogin.authenticate(usernames, passwords, login);
+        if (auth) {
+            String token = getJWTToken(login.getUsername());
+            login.setToken(token);
+            return token;
+        }else{
+            return "Incorrect details, please try again.";
+        }
 
     }
 
