@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
-// http://localhost:8080
+// postman: http://localhost:8080
+// h2: http://localhost:8080/h2-console
 
 @RestController
 public class HelloController {

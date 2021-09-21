@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="logins")
+@Table
 public class Login {
     @Id
     @Column
@@ -59,4 +59,12 @@ public class Login {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "Login{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

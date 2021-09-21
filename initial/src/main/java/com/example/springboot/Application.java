@@ -2,9 +2,13 @@ package com.example.springboot;
 
 import java.util.Arrays;
 
+import com.example.springboot.service.AccountService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
@@ -20,5 +24,12 @@ public class Application {
 			System.out.println(beanName);
 		}
 	}
-	
+
+	@Bean
+	CommandLineRunner run(AccountService accountService){
+		return args -> {
+			accountService.saveOrUpdate(new Login(2, "user2", "password2"));
+		};
+	}
+
 }
