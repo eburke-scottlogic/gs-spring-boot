@@ -27,12 +27,18 @@ public class Login {
     @Size(min=1)
     private String password;
 
+    @Column
+    @NotNull
+    @Size(min=1)
+    private String token;
+
     public Login () {}
 
-    public Login(int id, String username, String password){
+    public Login(int id, String username, String password, String token){
         this.id=id;
         this.username=username;
         this.password=password;
+        this.token=token;
     }
 
     public int getId() {
@@ -57,6 +63,14 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

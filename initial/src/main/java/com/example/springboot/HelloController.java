@@ -91,7 +91,7 @@ public class HelloController {
 	}
 
 	//post account to the database
-	@PostMapping("/account")
+	@PostMapping("/database")
 	public String saveAccount(@Valid @RequestBody Login login) {
 		accountService.saveOrUpdate(login);
 		String user = login.getUsername();

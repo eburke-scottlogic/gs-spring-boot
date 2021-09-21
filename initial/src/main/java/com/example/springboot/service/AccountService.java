@@ -16,21 +16,21 @@ public class AccountService {
 
     public List<Integer> getAllIds()
     {
-        List<Integer> ids = new ArrayList<Integer>();
+        List<Integer> ids = new ArrayList<>();
         accountRepository.findAll().forEach(login -> ids.add(login.getId()));
         return ids;
     }
 
     public List<String> getAllAccounts()
     {
-        List<String> accounts = new ArrayList<String>();
+        List<String> accounts = new ArrayList<>();
         accountRepository.findAll().forEach(login -> accounts.add(login.getUsername()));
         return accounts;
     }
 
     public List<String> getAllPasswords()
     {
-        List<String> passwords = new ArrayList<String>();
+        List<String> passwords = new ArrayList<>();
         accountRepository.findAll().forEach(login -> passwords.add(login.getPassword()));
         return passwords;
     }
