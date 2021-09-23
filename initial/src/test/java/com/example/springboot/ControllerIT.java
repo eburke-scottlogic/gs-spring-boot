@@ -49,7 +49,6 @@ public class ControllerIT {
     @Test
     public void createOrdersShouldReturnListsBuy() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                        "    \"account\": \"test\",\n" +
                         "    \"price\": 50,\n" +
                         "    \"quantity\": 10,\n" +
                         "    \"action\": \"buy\"\n" +
@@ -60,7 +59,6 @@ public class ControllerIT {
     @Test
     public void createOrdersShouldReturnListsSell() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                        "    \"account\": \"test\",\n" +
                         "    \"price\": 50,\n" +
                         "    \"quantity\": 10,\n" +
                         "    \"action\": \"sell\"\n" +
@@ -71,7 +69,6 @@ public class ControllerIT {
     @Test
     public void validateAccount() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                        "    \"account\": \"\",\n" +
                         "    \"price\": 50,\n" +
                         "    \"quantity\": 10,\n" +
                         "    \"action\": \"sell\"\n" +
@@ -81,7 +78,6 @@ public class ControllerIT {
     @Test
     public void validatePrice() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                "    \"account\": \"test\",\n" +
                 "    \"price\": 0,\n" +
                 "    \"quantity\": 10,\n" +
                 "    \"action\": \"sell\"\n" +
@@ -91,7 +87,6 @@ public class ControllerIT {
     @Test
     public void validateQuantity() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                "    \"account\": \"test\",\n" +
                 "    \"price\": 50,\n" +
                 "    \"quantity\": 0,\n" +
                 "    \"action\": \"sell\"\n" +
@@ -101,7 +96,6 @@ public class ControllerIT {
     @Test
     public void validateAction() throws Exception {
         this.mockMvc.perform(post("/createOrder").content("{\n" +
-                "    \"account\": \"test\",\n" +
                 "    \"price\": 50,\n" +
                 "    \"quantity\": 10,\n" +
                 "    \"action\": \"\"\n" +

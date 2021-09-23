@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,9 +18,6 @@ public class Login {
     @Size(min=1)
     private String password;
 
-    @Column
-    @Size(min=1)
-    private String token;
 
     public Login () {}
 
@@ -47,13 +42,6 @@ public class Login {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     @Override
     public String toString() {

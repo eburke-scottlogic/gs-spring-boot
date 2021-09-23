@@ -55,7 +55,11 @@ public class Application {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/user").permitAll()
+					.antMatchers("/").permitAll()
+					.antMatchers("/h2-console/**").permitAll()
+					.antMatchers("/database").permitAll()
 					.anyRequest().authenticated();
+			http.headers().frameOptions().disable();
 		}
 	}
 
