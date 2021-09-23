@@ -2,6 +2,7 @@ package com.example.springboot;
 
 
 import com.example.springboot.service.AccountService;
+import com.example.springboot.service.OrderService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class HelloController {
 	@Autowired
 	AccountService accountService;
 
+	@Autowired
+	OrderService orderService;
+
 	String userToAccount;
 
 	@GetMapping("/")
@@ -38,13 +42,13 @@ public class HelloController {
 
 	//buy list
 	@GetMapping("/allBuys")
-	public ArrayList<Order> callBuyList() {
+	public ArrayList<Orders> callBuyList() {
 		return matcher.buyList;
 	}
 
 	//sell list
 	@GetMapping("/allSells")
-	public ArrayList<Order> callSellList() {
+	public ArrayList<Orders> callSellList() {
 		return matcher.sellList;
 	}
 
@@ -77,14 +81,14 @@ public class HelloController {
 
 	//private buy list
 	@GetMapping("/privBuy")
-	public ArrayList<Order> privBuyList() {
+	public ArrayList<Orders> privBuyList() {
 		matcher.privateOrderBuy(userToAccount);
 		return matcher.privBuy;
 	}
 
 	//private sell list
 	@GetMapping("/privSell")
-	public ArrayList<Order> privSellList() {
+	public ArrayList<Orders> privSellList() {
 		matcher.privateOrderSell(userToAccount);
 		return matcher.privSell;
 	}
@@ -93,11 +97,12 @@ public class HelloController {
 	//new order
 	@PostMapping("/createOrder")
 	public ArrayList[] placeOrder(@Valid @RequestBody OrderInfo orderInfo) {
-		Order order = new Order(userToAccount, orderInfo.getPrice(), orderInfo.getQuantity(), orderInfo.getAction());
+		Orders order = new Orders(userToAccount, orderInfo.getPrice(), orderInfo.getQuantity(), orderInfo.getAction());
+		orderService.saveOrUpdate(order);
 		matcher.processOrder(order);
 		ArrayList[] lists = new ArrayList[2];
-		ArrayList<Order> buyList = matcher.buyList;
-		ArrayList<Order> sellList = matcher.sellList;
+		ArrayList<Orders> buyList = matcher.buyList;
+		ArrayList<Orders> sellList = matcher.sellList;
 		lists[0]=buyList;
 		lists[1]=sellList;
 		return lists;
@@ -117,6 +122,13 @@ public class HelloController {
 //		}
 //	}
 
+
+	//retrieves all the orders from the database
+	@GetMapping("/allOrders")
+	private List<Orders> getAllOrders()
+	{
+		return orderService.getAllOrders();
+	}
 
 	//retrieves all the usernames from the database
 	@GetMapping("/allAccounts")

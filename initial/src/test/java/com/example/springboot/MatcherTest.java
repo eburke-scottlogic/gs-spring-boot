@@ -103,9 +103,9 @@ public class MatcherTest {
     @Test
     @DisplayName("Removes null order")
     public void removeNullOrder() {
-        ArrayList<Order> newList = new ArrayList<>();
-        Order order1=new Order("user1", 2, 0, "buy");
-        Order order2=new Order("user2", 4, 2, "buy");
+        ArrayList<Orders> newList = new ArrayList<>();
+        Orders order1=new Orders("user1", 2, 0, "buy");
+        Orders order2=new Orders("user2", 4, 2, "buy");
         newList.add(order1);
         newList.add(order2);
         matcher.removeNullOrders(newList);
@@ -115,8 +115,8 @@ public class MatcherTest {
     @Test
     @DisplayName("addOrder works for buy list")
     public void addBuyOrder() {
-        Order order1=new Order("user1", 2, 8, "buy");
-        Order order2=new Order("user2", 4, 2, "buy");
+        Orders order1=new Orders("user1", 2, 8, "buy");
+        Orders order2=new Orders("user2", 4, 2, "buy");
         matcher.addOrder(order1);
         matcher.addOrder(order2);
         assertEquals(2, matcher.buyList.size());
@@ -125,8 +125,8 @@ public class MatcherTest {
     @Test
     @DisplayName("addOrder works for sell list")
     public void addSellOrder() {
-        Order order1=new Order("user1", 2, 8, "sell");
-        Order order2=new Order("user2", 4, 2, "sell");
+        Orders order1=new Orders("user1", 2, 8, "sell");
+        Orders order2=new Orders("user2", 4, 2, "sell");
         matcher.addOrder(order1);
         matcher.addOrder(order2);
         assertEquals(2, matcher.sellList.size());
@@ -135,8 +135,8 @@ public class MatcherTest {
     @Test
     @DisplayName("newMatch adds to transHist")
     public void matchOrders() {
-        Order order1=new Order("user1", 2, 8, "buy");
-        Order order2=new Order("user2", 2, 8, "sell");
+        Orders order1=new Orders("user1", 2, 8, "buy");
+        Orders order2=new Orders("user2", 2, 8, "sell");
         matcher.newMatch(order1, order2);
         assertEquals(1, matcher.transHist.size());
     }
@@ -151,7 +151,7 @@ public class MatcherTest {
     @Test
     @DisplayName("processOrder adds to buyList")
     public void processBuyOrder() {
-        Order order1=new Order("user1", 2, 8, "buy");
+        Orders order1=new Orders("user1", 2, 8, "buy");
         matcher.processOrder(order1);
         assertEquals(1, matcher.buyList.size());
     }
@@ -159,7 +159,7 @@ public class MatcherTest {
     @Test
     @DisplayName("processOrder adds to sellList")
     public void processSellOrder() {
-        Order order1=new Order("user1", 2, 8, "sell");
+        Orders order1=new Orders("user1", 2, 8, "sell");
         matcher.processOrder(order1);
         assertEquals(1, matcher.sellList.size());
     }
