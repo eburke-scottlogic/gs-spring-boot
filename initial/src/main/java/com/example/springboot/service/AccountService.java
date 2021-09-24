@@ -4,6 +4,7 @@ import com.example.springboot.repository.AccountRepository;
 import com.example.springboot.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<String> getAllAccounts()
     {
@@ -34,6 +38,7 @@ public class AccountService {
     }
 
     public void saveOrUpdate(Login login) {
+        login.setPassword(passwordEncoder.encode(login.getPassword()));
         accountRepository.save(login);
     }
 

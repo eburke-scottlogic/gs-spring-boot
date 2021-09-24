@@ -1,5 +1,8 @@
 package com.example.springboot;
 
+import com.example.springboot.service.OrderService;
+import com.example.springboot.service.TradeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -91,9 +94,13 @@ public class Matcher {   //every Java program has a class name which must match 
         }
     }
 
+    @Autowired
+    TradeService tradeService;
+
     public void newTrade(String account1, String account2, float price, int quantity, String action) {
         Trade trade=new Trade(account1, account2, price, quantity, action);
         transHist.add(trade);
+        tradeService.saveOrUpdate(trade);
     }
 
     public void removeNullOrders(ArrayList<Orders> list) {

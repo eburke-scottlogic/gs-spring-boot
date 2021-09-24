@@ -137,19 +137,19 @@ public class HelloController {
 		return accountService.getAllAccounts();
 	}
 
-	//retrieves the detail of a specific account
-	@GetMapping("/account/{id}")
-	private Login getStudent(@PathVariable("id") int id)
-	{
-		return accountService.getAccountById(id);
-	}
-
-	//deletes a specific account
-	@DeleteMapping("/account/{id}")
-	private void deleteAccount(@PathVariable("id") int id)
-	{
-		accountService.delete(id);
-	}
+//	//retrieves the detail of a specific account
+//	@GetMapping("/account/{id}")
+//	private Login getStudent(@PathVariable("id") int id)
+//	{
+//		return accountService.getAccountById(id);
+//	}
+//
+//	//deletes a specific account
+//	@DeleteMapping("/account/{id}")
+//	private void deleteAccount(@PathVariable("id") int id)
+//	{
+//		accountService.delete(id);
+//	}
 
 	//post account to the database
 	@PostMapping("/database")
@@ -165,7 +165,7 @@ public class HelloController {
 
 	//initial login
 	@PostMapping("user")
-	public String login(@Valid @RequestBody Login login) {
+	public String initialLogin(@Valid @RequestBody Login login) {
 		List<String> usernames = accountService.getAllAccounts();
 		List<String> passwords = accountService.getAllPasswords();
 		boolean auth = authlogin.authenticate(usernames, passwords, login);

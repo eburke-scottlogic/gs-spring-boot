@@ -1,32 +1,36 @@
 package com.example.springboot;
 
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Entity
+@Table
 public class Trade {
 
-    @NotNull
+    @Id @GeneratedValue long id;
+    @Column
     @Size(min=1)
     private String account1;
 
-    @NotNull
+    @Column
     @Size(min=1)
     private String account2;
 
-    @NotNull
+    @Column
     @DecimalMin("0.01")
     private float price;
 
-    @NotNull
+    @Column
     @Min(1)
     private int quantity;
 
-    @NotNull
+    @Column
     @Size(min=1)
     private String action;
+
+    public Trade () {}
 
     public Trade(String account1, String account2, float price, int quantity, String action){
         this.account1=account1;
@@ -75,4 +79,17 @@ public class Trade {
     public void setAction(String action) {
         this.action = action;
     }
+
+    @Override
+    public String toString() {
+        return "Trade{" +
+                "id=" + id +
+                ", account1='" + account1 + '\'' +
+                ", account2='" + account2 + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", action='" + action + '\'' +
+                '}';
+    }
+
 }
