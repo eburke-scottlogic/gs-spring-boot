@@ -14,10 +14,11 @@ public class TradeService {
     @Autowired
     TradeRepository tradeRepository;
 
+
     public List<Trade> getAllTrades()
     {
         List<Trade> trades = new ArrayList<>();
-        tradeRepository.findAll().forEach(trade -> trades.add(trade));
+        tradeRepository.findAll().forEach(trades::add);
         return trades;
     }
 

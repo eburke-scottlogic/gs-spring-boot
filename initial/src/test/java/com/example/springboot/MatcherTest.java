@@ -1,23 +1,24 @@
 package com.example.springboot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+
 
 import java.util.ArrayList;
 
-
+@SpringBootTest
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 public class MatcherTest {
 
+    @Autowired
     Matcher matcher;
-
-    @BeforeEach
-    public void setUp() {
-        matcher = new Matcher();
-    }
-
 
     @Test
     @DisplayName("Adds to buy list")

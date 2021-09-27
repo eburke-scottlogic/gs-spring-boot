@@ -1,6 +1,6 @@
 package com.example.springboot;
 
-import com.example.springboot.service.OrderService;
+import com.example.springboot.repository.TradeRepository;
 import com.example.springboot.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,14 @@ public class Matcher {   //every Java program has a class name which must match 
     public ArrayList<Orders> sellList;
     public ArrayList<Trade> transHist;
 
+    @Autowired
+    TradeService tradeService;
+
     public Matcher() {                     //constructor
         buyList = new ArrayList<Orders>();
         sellList = new ArrayList<Orders>();
         transHist = new ArrayList<Trade>();
+
 //        createOrder("user1", 2, 3, "buy");
 //        createOrder("user2", 6, 7, "buy");
 //        createOrder("user3", 9, 5, "buy");
@@ -94,8 +98,6 @@ public class Matcher {   //every Java program has a class name which must match 
         }
     }
 
-    @Autowired
-    TradeService tradeService;
 
     public void newTrade(String account1, String account2, float price, int quantity, String action) {
         Trade trade=new Trade(account1, account2, price, quantity, action);
