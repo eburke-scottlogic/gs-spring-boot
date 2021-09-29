@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 // h2: http://localhost:8080/h2-console
 
 @RestController
+@CrossOrigin("*")
 public class HelloController {
 
 	@Autowired
@@ -31,6 +32,9 @@ public class HelloController {
 
 	@Autowired
 	OrderService orderService;
+
+	@Autowired
+	PlaceOrder placeOrder;
 
 	String userToAccount;
 
@@ -72,6 +76,7 @@ public class HelloController {
 		return matcher.aggSell;
 	}
 
+
 	//private trades
 	@GetMapping("/privTrades")
 	public ArrayList<Trade> privTransHist() {
@@ -96,16 +101,21 @@ public class HelloController {
 
 	//new order
 	@PostMapping("/createOrder")
-	public ArrayList[] placeOrder(@Valid @RequestBody OrderInfo orderInfo) {
+	public PlaceOrder placeOrder(@Valid @RequestBody OrderInfo orderInfo) {
 		Orders order = new Orders(userToAccount, orderInfo.getPrice(), orderInfo.getQuantity(), orderInfo.getAction());
 		orderService.saveOrUpdate(order);
 		matcher.processOrder(order);
-		ArrayList[] lists = new ArrayList[2];
-		ArrayList<Orders> buyList = matcher.buyList;
-		ArrayList<Orders> sellList = matcher.sellList;
-		lists[0]=buyList;
-		lists[1]=sellList;
-		return lists;
+		ArrayList[] lists = new ArrayList[4];
+		lists[0]=matcher.transHist;
+		lists[1]=privSellList();
+		lists[2]=privBuyList();
+		lists[3]=privTransHist();
+		HashMap[] aggregateBook=new HashMap[2];
+		aggregateBook[0] = aggBuyList();
+		aggregateBook[1] = aggSellList();
+		placeOrder.setLists(lists);
+		placeOrder.setAggLists(aggregateBook);
+		return placeOrder;
 	}
 
 //	//login, authenticates against database
@@ -174,7 +184,7 @@ public class HelloController {
 			String token = getJWTToken(login.getUsername());
 			return token;
 		}else{
-			return "Incorrect details, please try again.";
+			return "invalid";
 		}
 
 	}
