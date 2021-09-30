@@ -1,24 +1,33 @@
 package com.example.springboot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
+import com.example.springboot.service.TradeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
 import java.util.ArrayList;
 
-@SpringBootTest
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@RunWith(MockitoJUnitRunner.class)
 public class MatcherTest {
 
-    @Autowired
+    @InjectMocks
     Matcher matcher;
+
+    @Mock
+    TradeService tradeService;
+
+    @BeforeEach
+    public void initMocks() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     @DisplayName("Adds to buy list")

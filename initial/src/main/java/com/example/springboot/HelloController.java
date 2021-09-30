@@ -147,6 +147,13 @@ public class HelloController {
 		return accountService.getAllAccounts();
 	}
 
+	//retrieves all the usernames from the database
+	@GetMapping("/allPasswords")
+	private List<String> getAllPasswords()
+	{
+		return accountService.getAllPasswords();
+	}
+
 //	//retrieves the detail of a specific account
 //	@GetMapping("/account/{id}")
 //	private Login getStudent(@PathVariable("id") int id)

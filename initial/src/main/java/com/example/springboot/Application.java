@@ -65,6 +65,7 @@ public class Application {
 					.antMatchers("/aggBuys").permitAll()
 					.antMatchers("/aggSells").permitAll()
 					.antMatchers("/allAccounts").permitAll()
+					.antMatchers("/allPasswords").permitAll()
 					.anyRequest().authenticated();
 			http.headers().frameOptions().disable();
 		}
