@@ -76,6 +76,15 @@ public class HelloController {
 		return matcher.aggSell;
 	}
 
+	//agg sell list
+	@GetMapping("/aggBook")
+	public HashMap[] aggBook() {
+		HashMap[] aggregateBook=new HashMap[2];
+		aggregateBook[0] = aggBuyList();
+		aggregateBook[1] = aggSellList();
+		return aggregateBook;
+	}
+
 
 	//private trades
 	@GetMapping("/privTrades")
@@ -118,6 +127,26 @@ public class HelloController {
 		return placeOrder;
 	}
 
+
+//	//bot
+//	@PostMapping("/randomOrder")
+//	public PlaceOrder placeOrder() {
+//		Orders order = new Orders(userToAccount, orderInfo.getPrice(), orderInfo.getQuantity(), orderInfo.getAction());
+//		orderService.saveOrUpdate(order);
+//		matcher.processOrder(order);
+//		ArrayList[] lists = new ArrayList[4];
+//		lists[0]=matcher.transHist;
+//		lists[1]=privSellList();
+//		lists[2]=privBuyList();
+//		lists[3]=privTransHist();
+//		HashMap[] aggregateBook=new HashMap[2];
+//		aggregateBook[0] = aggBuyList();
+//		aggregateBook[1] = aggSellList();
+//		placeOrder.setLists(lists);
+//		placeOrder.setAggLists(aggregateBook);
+//		return placeOrder;
+//	}
+
 //	//login, authenticates against database
 //	@PostMapping("/login")
 //	public String newLogin(@Valid @RequestBody Login login) {
@@ -147,12 +176,12 @@ public class HelloController {
 		return accountService.getAllAccounts();
 	}
 
-	//retrieves all the usernames from the database
-	@GetMapping("/allPasswords")
-	private List<String> getAllPasswords()
-	{
-		return accountService.getAllPasswords();
-	}
+//	//retrieves all the usernames from the database
+//	@GetMapping("/allPasswords")
+//	private List<String> getAllPasswords()
+//	{
+//		return accountService.getAllPasswords();
+//	}
 
 //	//retrieves the detail of a specific account
 //	@GetMapping("/account/{id}")

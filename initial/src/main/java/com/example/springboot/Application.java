@@ -64,8 +64,8 @@ public class Application {
 					.antMatchers("/allTrades").permitAll()
 					.antMatchers("/aggBuys").permitAll()
 					.antMatchers("/aggSells").permitAll()
+					.antMatchers("/aggBook").permitAll()
 					.antMatchers("/allAccounts").permitAll()
-					.antMatchers("/allPasswords").permitAll()
 					.anyRequest().authenticated();
 			http.headers().frameOptions().disable();
 		}
